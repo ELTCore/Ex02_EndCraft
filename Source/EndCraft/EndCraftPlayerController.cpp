@@ -450,6 +450,9 @@ void AEndCraftPlayerController::IssueMoveCommand()
 
 	UE_LOG(LogTemp, Log, TEXT("Move command issued to location: %s"), *MouseWorldLocation.ToString());
 
+	// 检查是否按住 Shift 键
+	bool bShiftDown = IsShiftKeyDown();
+
 	// 获取所有选中的单位
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(this, AEndCraftHeroCharacter::StaticClass(), FoundActors);
@@ -460,6 +463,12 @@ void AEndCraftPlayerController::IssueMoveCommand()
 		AEndCraftHeroCharacter* Hero = Cast<AEndCraftHeroCharacter>(Actor);
 		if (Hero && Hero->IsSelected())
 		{
+			// 如果没按 Shift，清空当前队列
+			if (!bShiftDown)
+			{
+				Hero->ClearCommandQueue();
+			}
+
 			// 创建移动指令并添加到队列
 			FCommandQueueItem MoveCommand = FCommandQueueItem::CreateMoveCommand(MouseWorldLocation);
 			Hero->AddCommand(MoveCommand);
@@ -467,7 +476,19 @@ void AEndCraftPlayerController::IssueMoveCommand()
 		}
 	}
 
-	UE_LOG(LogTemp, Log, TEXT("Move command sent to %d heroes"), CommandCount);
+	if (bShiftDown)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Move command queued to %d heroes"), CommandCount);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("Move command sent to %d heroes (queue cleared)"), CommandCount);
+	}
+}
+
+bool AEndCraftPlayerController::IsShiftKeyDown() const
+{
+    return IsInputKeyDown(EKeys::LeftShift) || IsInputKeyDown(EKeys::RightShift);
 }
 
 void AEndCraftPlayerController::SelectUnits(const FInputActionValue& Value)

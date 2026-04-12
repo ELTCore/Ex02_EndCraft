@@ -78,6 +78,9 @@ protected:
 	// 右键移动命令
 	void IssueMoveCommand();
 
+	// 检查 Shift 键是否按下
+	bool IsShiftKeyDown() const;
+
 	// 时停切换
 	void ToggleTimeStop(const FInputActionValue& Value);
 
