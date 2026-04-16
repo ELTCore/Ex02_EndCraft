@@ -36,7 +36,7 @@ public:
 
 	// 清除指令队列
 	UFUNCTION(BlueprintCallable, Category = "Command")
-	void ClearCommandQueue();
+	void ClearCommandQueue(bool bStopPhysicalMovement);
 
 	// 获取队列长度
 	UFUNCTION(BlueprintPure, Category = "Command")

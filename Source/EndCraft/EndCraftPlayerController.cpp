@@ -466,9 +466,8 @@ void AEndCraftPlayerController::IssueMoveCommand()
 			// 如果没按 Shift，清空当前队列
 			if (!bShiftDown)
 			{
-				Hero->ClearCommandQueue();
+				Hero->ClearCommandQueue(false);
 			}
-
 			// 创建移动指令并添加到队列
 			FCommandQueueItem MoveCommand = FCommandQueueItem::CreateMoveCommand(MouseWorldLocation);
 			Hero->AddCommand(MoveCommand);

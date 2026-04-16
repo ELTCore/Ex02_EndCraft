@@ -86,16 +86,19 @@ void AEndCraftHeroCharacter::AddCommand(const FCommandQueueItem& Command)
 	}
 }
 
-void AEndCraftHeroCharacter::ClearCommandQueue()
+void AEndCraftHeroCharacter::ClearCommandQueue(bool bStopPhysicalMovement)
 {
 	CommandQueue.Empty();
 	CurrentCommand      = FCommandQueueItem();
 	bIsExecutingCommand = false;
 	CommandTimer        = 0.0f;
 
-	// 停止移动
-	GetCharacterMovement()->StopMovementImmediately();
-
+	// 【关键修改】按需刹车
+	if (bStopPhysicalMovement)
+	{
+		GetCharacterMovement()->StopMovementImmediately();
+		if (AIController) AIController->StopMovement();
+	}
 	UE_LOG(LogTemp, Log, TEXT("Hero %s command queue cleared"), *GetName());
 }
 
@@ -236,11 +239,20 @@ void AEndCraftHeroCharacter::CompleteCurrentCommand()
 {
 	UE_LOG(LogTemp, Log, TEXT("Hero %s completed command"), *GetName());
 
-	// 停止移动
-	GetCharacterMovement()->StopMovementImmediately();
-
-	// 重置状态
+	// 重置状态（注意顺序）
 	bIsExecutingCommand = false;
 	CommandTimer        = 0.0f;
 	CurrentCommand      = FCommandQueueItem();
+
+	// 只有当队列完全空了，才真正停下脚步
+	if (CommandQueue.Num() == 0)
+	{
+		GetCharacterMovement()->StopMovementImmediately();
+		
+		// 最好连 AI 控制器的寻路也一起停掉
+		if (AIController)
+		{
+			AIController->StopMovement();
+		}
+	}
 }
