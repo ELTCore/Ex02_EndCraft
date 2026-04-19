@@ -9,9 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7f7d3129-504d-47e9-a48d-6ce411a54bfd" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.EndCraft.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.EndCraft.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EndCraft.uproject.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/EndCraft.uproject.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/EndCraft/EndCraftHeroCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EndCraft/EndCraftHeroCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/EndCraft/EndCraftHeroCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EndCraft/EndCraftHeroCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EndCraft/EndCraftPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EndCraft/EndCraftPlayerController.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +32,7 @@
     <setting file="file://$PROJECT_DIR$/../../../../../Epic Games/UE_5.6/Engine/Source/Runtime/AIModule/Classes/Navigation/PathFollowingComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Epic Games/UE_5.6/Engine/Source/Runtime/ApplicationCore/Public/GenericPlatform/GenericApplication.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Delegates/Delegate.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../../Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Math/Vector2D.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Private/UObject/DeferredRegistry.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectPtr.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Epic Games/UE_5.6/Engine/Source/Runtime/Engine/Classes/GameFramework/Actor.h" root0="FORCE_HIGHLIGHTING" />
@@ -162,7 +161,7 @@
       <workItem from="1776261045859" duration="2221000" />
       <workItem from="1776353772931" duration="1379000" />
       <workItem from="1776600596496" duration="412000" />
-      <workItem from="1776601020881" duration="3895000" />
+      <workItem from="1776601020881" duration="5509000" />
     </task>
     <servers />
   </component>

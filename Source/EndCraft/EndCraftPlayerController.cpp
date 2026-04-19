@@ -211,6 +211,11 @@ void AEndCraftPlayerController::MoveCamera()
 
 FVector2D AEndCraftPlayerController::CalculateEdgeScrollInput() const
 {
+	if (!GEngine || !GEngine->GameViewport->Viewport->IsForegroundWindow())
+	{
+		return FVector2D::ZeroVector;
+	}
+	
 	FVector2D EdgeScrollInput = FVector2D::ZeroVector;
 
 	// 获取鼠标位置
