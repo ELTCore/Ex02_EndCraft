@@ -114,12 +114,7 @@ void AEndCraftHeroCharacter::ProcessCommandQueue(float DeltaTime)
 		{
 		case ECommandType::Move:
 			{
-				// 检查是否到达目标位置
-				float DistanceToTarget = FVector::Dist2D(GetActorLocation(), CurrentCommand.TargetLocation);
-				if (DistanceToTarget < 10.0f)
-				{
-					CompleteCurrentCommand();
-				}
+				// 移动指令由 OnMoveCompleted 事件处理，不在这里检查
 				break;
 			}
 
@@ -159,7 +154,7 @@ void AEndCraftHeroCharacter::ProcessCommandQueue(float DeltaTime)
 			break;
 		}
 
-		// return;
+		return;
 	}
 
 	// 没有正在执行的指令，检查队列是否有新指令
@@ -192,9 +187,10 @@ void AEndCraftHeroCharacter::ExecuteCommand(const FCommandQueueItem& Command)
 	{
 	case ECommandType::Move:
 		{
+			// 绑定移动完成事件
+			AIController->ReceiveMoveCompleted.AddDynamic(this, &AEndCraftHeroCharacter::OnMoveCompleted);
+
 			// 移动到目标位置
-			// FVector Direction = (Command.TargetLocation - GetActorLocation()).GetSafeNormal2D();
-			// AddMovementInput(Direction, 1.0f);
 			FAIMoveRequest MoveReq;
 			MoveReq.SetGoalLocation(Command.TargetLocation);
 			MoveReq.SetAcceptanceRadius(150.f);
@@ -233,7 +229,6 @@ void AEndCraftHeroCharacter::ExecuteCommand(const FCommandQueueItem& Command)
 		break;
 	}
 }
-#pragma optimize("", on)
 
 void AEndCraftHeroCharacter::CompleteCurrentCommand()
 {
@@ -243,16 +238,26 @@ void AEndCraftHeroCharacter::CompleteCurrentCommand()
 	bIsExecutingCommand = false;
 	CommandTimer        = 0.0f;
 	CurrentCommand      = FCommandQueueItem();
+}
+#pragma optimize("", on)
 
-	// 只有当队列完全空了，才真正停下脚步
-	if (CommandQueue.Num() == 0)
+void AEndCraftHeroCharacter::OnMoveCompleted(FAIRequestID RequestID, EPathFollowingResult::Type Result)
+{
+	if (AIController)
 	{
-		GetCharacterMovement()->StopMovementImmediately();
-		
-		// 最好连 AI 控制器的寻路也一起停掉
-		if (AIController)
-		{
-			AIController->StopMovement();
-		}
+		AIController->ReceiveMoveCompleted.RemoveDynamic(this, &AEndCraftHeroCharacter::OnMoveCompleted);
+	}
+
+	// 检查结果是否成功
+	if (Result == EPathFollowingResult::Success)
+	{
+		// 移动成功，完成当前指令
+		CompleteCurrentCommand();
+	}
+	else
+	{
+		// 移动失败，记录日志并完成指令（避免卡住）
+		UE_LOG(LogTemp, Warning, TEXT("Hero %s move failed: %s"), *GetName(), *UEnum::GetValueAsString(Result));
+		CompleteCurrentCommand();
 	}
 }

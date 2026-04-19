@@ -7,6 +7,11 @@
 #include "CommandQueueItem.h"
 #include "EndCraftHeroCharacter.generated.h"
 
+namespace EPathFollowingResult
+{
+enum Type : int;
+}
+
 /**
  * EndCraft 英雄单位基类
  */
@@ -84,4 +89,8 @@ private:
 
 	// 完成当前指令
 	void CompleteCurrentCommand();
+
+	// AI 移动完成回调
+	UFUNCTION()
+	void OnMoveCompleted(struct FAIRequestID RequestID, EPathFollowingResult::Type Result);
 };
